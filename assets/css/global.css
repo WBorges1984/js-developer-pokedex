@@ -22,3 +22,42 @@ body {
         border-radius: 1rem;
     }
 }
+
+#pokemonSearch {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    width: 60%;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#pokemonSearch:focus {
+    border-color: #3b4cca; /* Azul da Pokedex */
+    box-shadow: 2px 2px 12px rgba(59, 76, 202, 0.4);
+}
+
+#pokemonTypeFilter {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    width: 35%;
+    outline: none;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    appearance: none; /* Remove o estilo padrão do select */
+}
+
+#pokemonTypeFilter:focus {
+    border-color: #3b4cca; /* Azul da Pokedex */
+    box-shadow: 2px 2px 12px rgba(59, 76, 202, 0.4);
+}
+
+#pokemonTypeFilter option {
+    padding: 10px;
+    background-color: #fff;
+}

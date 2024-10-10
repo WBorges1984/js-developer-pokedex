@@ -25,7 +25,19 @@
 <body>
     <section class="content">
         <h1>Pokedex</h1>
-
+        <input type="text" id="pokemonSearch" placeholder="Buscar Pokémon por nome">
+        <select id="pokemonTypeFilter">
+            <option value="">Todos os Tipos</option>
+            <option value="grass">Grama</option>
+            <option value="fire">Fogo</option>
+            <option value="water">Água</option>
+            <option value="bug">Bug</option>
+            <option value="normal">Normal</option>
+            <option value="electric">Eletrico</option>
+            <option value="fairy">Fada</option>
+            <option value="poison">Tóxico</option>
+            <!-- Adicione mais opções de tipos conforme necessário -->
+        </select>
         <ol id="pokemonList" class="pokemons">
             <!-- ..... Pokemons here ..... -->
         </ol>

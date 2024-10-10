@@ -1,8 +1,10 @@
-const pokemonList = document.getElementById('pokemonList')
-const loadMoreButton = document.getElementById('loadMoreButton')
+const pokemonList = document.getElementById('pokemonList');
+const loadMoreButton = document.getElementById('loadMoreButton');
+const pokemonSearch = document.getElementById('pokemonSearch');
 
-const maxRecords = 151
-const limit = 10
+let allPokemons = []; // Para armazenar todos os Pokémon carregados
+const maxRecords = 151;
+const limit = 10;
 let offset = 0;
 
 function convertPokemonToLi(pokemon) {
@@ -16,32 +18,62 @@ function convertPokemonToLi(pokemon) {
                     ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
                 </ol>
 
-                <img src="${pokemon.photo}"
-                     alt="${pokemon.name}">
+                <img src="${pokemon.photo}" alt="${pokemon.name}">
             </div>
         </li>
-    `
+    `;
+}
+
+function renderPokemonList(pokemons) {
+    const newHtml = pokemons.map(convertPokemonToLi).join('');
+    pokemonList.innerHTML = newHtml;
 }
 
 function loadPokemonItens(offset, limit) {
     pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
-        const newHtml = pokemons.map(convertPokemonToLi).join('')
-        pokemonList.innerHTML += newHtml
-    })
+        allPokemons = [...allPokemons, ...pokemons]; // Armazena todos os Pokémon
+        renderPokemonList(allPokemons); // Renderiza todos os Pokémon
+    });
 }
 
-loadPokemonItens(offset, limit)
+loadPokemonItens(offset, limit);
 
 loadMoreButton.addEventListener('click', () => {
-    offset += limit
-    const qtdRecordsWithNexPage = offset + limit
+    offset += limit;
+    const qtdRecordsWithNextPage = offset + limit;
 
-    if (qtdRecordsWithNexPage >= maxRecords) {
-        const newLimit = maxRecords - offset
-        loadPokemonItens(offset, newLimit)
-
-        loadMoreButton.parentElement.removeChild(loadMoreButton)
+    if (qtdRecordsWithNextPage >= maxRecords) {
+        const newLimit = maxRecords - offset;
+        loadPokemonItens(offset, newLimit);
+        loadMoreButton.parentElement.removeChild(loadMoreButton);
     } else {
-        loadPokemonItens(offset, limit)
+        loadPokemonItens(offset, limit);
     }
-})
+});
+
+// Filtrar Pokémon por nome
+pokemonSearch.addEventListener('input', (event) => {
+    const searchValue = event.target.value.toLowerCase();
+
+    const filteredPokemons = allPokemons.filter(pokemon => 
+        pokemon.name.toLowerCase().includes(searchValue)
+    );
+
+    renderPokemonList(filteredPokemons);
+});
+
+const pokemonTypeFilter = document.getElementById('pokemonTypeFilter');
+
+// Filtrar Pokémon por tipo
+pokemonTypeFilter.addEventListener('change', (event) => {
+    const selectedType = event.target.value;
+
+    if (selectedType === "") {
+        renderPokemonList(allPokemons); // Exibe todos os Pokémon
+    } else {
+        const filteredPokemons = allPokemons.filter(pokemon =>
+            pokemon.types.includes(selectedType)
+        );
+        renderPokemonList(filteredPokemons);
+    }
+});
